@@ -35,20 +35,19 @@ public class MovePlatform : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(GameConst.PLAYER_TAG))
         {
-            if (Player.transform.parent == null)
+            if (collision.transform.parent == null)
             {
-                Player.transform.SetParent(this.transform);
+                collision.transform.SetParent(this.transform);
             }
-            if (Player.transform.parent == this.transform && Player.IsJumping)
-                Player.transform.SetParent(null);
+            if (collision.gameObject.transform.parent == this.transform && Player.IsJumping)
+                collision.transform.SetParent(null);
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag(GameConst.PLAYER_TAG))
         {
-            if (Player.transform.parent == this.gameObject)
-                Player.transform.SetParent(null);
+            collision.transform.SetParent(null);
         }
     }
     public void TriggerMovePlatform()

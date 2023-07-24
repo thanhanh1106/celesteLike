@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     public PlayerMoveData Data;
     public Rigidbody2D Rb;
-    
+
     CameraShake cameraShake;
 
     #region State Parameter
