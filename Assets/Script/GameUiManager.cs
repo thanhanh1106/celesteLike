@@ -20,6 +20,7 @@ public class GameUiManager : Singleton<GameUiManager>
 
     public void UpdateDeath(int numOfDeath)
     {
+        Debug.Log(numOfDeath);
         DeathText.text = numOfDeath.ToString("000");
     }
     public void UpdateCherry(int numOfCherry)

@@ -20,6 +20,14 @@ public static class Prefs
         }
         get => PlayerPrefs.GetInt(GameConst.PREFS_DEATH_COUNT);
     }
+    public static int NumberOfCherry
+    {
+        set
+        {
+            PlayerPrefs.SetInt(GameConst.PREFS_CHERRY_COUNT, value);
+        }
+        get => PlayerPrefs.GetInt(GameConst.PREFS_CHERRY_COUNT);
+    }
     public static Vector3 CheckPoint
     {
         get

@@ -8,9 +8,8 @@ public class PlayerController : MonoBehaviour
     public PlayerMoveData Data;
     public Rigidbody2D Rb;
 
-    CameraShake cameraShake;
-
     #region State Parameter
+    [HideInInspector] public bool IsDie { get; private set; }
     [HideInInspector] public bool IsFacingRight {  get; private set; }
     [HideInInspector] public bool IsJumping { get; set; }
     [HideInInspector] public bool IsWallJumping { get; set; }
@@ -79,6 +78,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     Vector3 checkPoint;
+    
 
     private void Awake()
     {
@@ -218,7 +218,7 @@ public class PlayerController : MonoBehaviour
             isJumpCut = false;
             IsWallJumping = false;
             StartCoroutine(Dash(DashDirection));
-            cameraShake.ShakeCamera(1.5f, 10f, 0.1f);
+            CameraShake.Instance.ShakeCamera(1.5f, 10f, 0.1f);
             AudioController.Instance.PlaySound(AudioController.Instance.Dash);
         }
         #endregion
@@ -553,23 +553,10 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.Instance.SetCheckPoint(transform.position);
         }
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag(GameConst.ROOM_TAG))
-        {
-            if(cameraShake == null)
-                cameraShake = FindObjectOfType<CameraShake>();
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag(GameConst.ROOM_TAG))
-            cameraShake = null;
-    }
-    
+    } 
     void Die()
     {
+        IsDie = true;
         AudioController.Instance.PlaySound(AudioController.Instance.Die);
         //1 cách để người chơi biến mất
         transform.localScale = Vector3.zero;
@@ -585,5 +572,6 @@ public class PlayerController : MonoBehaviour
         transform.position = GameManager.Instance.GetCheckPoint();
         // phóng to hiện lại người chơi
         transform.localScale = new Vector3(1, 1, 1);
+        IsDie = false;
     }
 }

@@ -11,6 +11,7 @@ public class CameraChange : MonoBehaviour
         {
             if (VirtualCam.active == true) return;
             StartCoroutine(Wait(true));
+            CameraShake.Instance = VirtualCam.GetComponent<CameraShake>();
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

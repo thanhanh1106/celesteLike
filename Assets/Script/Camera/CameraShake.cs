@@ -5,6 +5,18 @@ using Cinemachine;
 
 public class CameraShake : MonoBehaviour
 {
+    private static CameraShake instance;
+    public static CameraShake Instance // bản thể này thay đổi theo camera change
+    {
+        get => instance;
+        set
+        {
+            if (instance != null) instance = null; // hủy bản thể cũ trước khi gán cái mới
+            instance = value;
+        }
+    }
+    private CameraShake() { }
+
     CinemachineVirtualCamera virtualCamera;
 
     float timer;

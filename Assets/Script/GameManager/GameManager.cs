@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -18,6 +19,18 @@ public class GameManager : Singleton<GameManager>
             Prefs.IsGameEntered = true;
         }
         GameUiManager.Instance.UpdateDeath(Prefs.NumberOfDeaths);
+        GameUiManager.Instance.UpdateCherry(Prefs.NumberOfCherry);
+
+        List<int> cherries = JsonManager.Instance.LoadListIdCherryToJson();
+        Cherry[] cherriesObject = FindObjectsOfType<Cherry>();
+        foreach (int cherry in cherries)
+        {
+            foreach(Cherry cherryObject in cherriesObject)
+            {
+                if(cherryObject.Id == cherry)
+                    Destroy(cherryObject);
+            }
+        }
     }
     public void SetCheckPoint(Vector3 position)
     {
@@ -31,6 +44,10 @@ public class GameManager : Singleton<GameManager>
     {
         Prefs.NumberOfDeaths++;
         GameUiManager.Instance.UpdateDeath(Prefs.NumberOfDeaths);
-        Debug.Log(Prefs.NumberOfDeaths);
+    }
+    public void CherryCount()
+    {
+        Prefs.NumberOfCherry++;
+        GameUiManager.Instance.UpdateCherry(Prefs.NumberOfCherry);
     }
 }
