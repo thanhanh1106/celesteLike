@@ -39,7 +39,7 @@ public class MovePlatform : MonoBehaviour
             {
                 collision.transform.SetParent(this.transform);
             }
-            if (collision.gameObject.transform.parent == this.transform && Player.IsJumping)
+            if (collision.gameObject.transform.parent == this.transform && Player.IsJumping || Player.IsDie)
                 collision.transform.SetParent(null);
         }
     }
