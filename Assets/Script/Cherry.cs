@@ -37,7 +37,7 @@ public class Cherry : MonoBehaviour
         {
             collected = true;
         }
-        if (collision.CompareTag(GameConst.CHECK_POINT_TAG))
+        if (collision.CompareTag(GameConst.CHECK_POINT_TAG) || collision.CompareTag(GameConst.PREFS_COLECTION_POINT))
         {
             GameManager.Instance.CherryIdManager.AddElementToListInJson(this.Id);
             Destroy(gameObject);
