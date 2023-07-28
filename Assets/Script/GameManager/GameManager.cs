@@ -7,6 +7,8 @@ public class GameManager : Singleton<GameManager>
 {
     public PlayerController player;
 
+    public JsonListManager<int> CherryIdManager;
+
     protected void Awake()
     {
         MakeSingleton(false);
@@ -21,16 +23,23 @@ public class GameManager : Singleton<GameManager>
         GameUiManager.Instance.UpdateDeath(Prefs.NumberOfDeaths);
         GameUiManager.Instance.UpdateCherry(Prefs.NumberOfCherry);
 
-        List<int> cherries = JsonManager.Instance.LoadListIdCherryToJson();
+        // duyệt tất cả các quả cherry đã thu thập và hủy nó đi trên scenes
+        CherryIdManager = new JsonListManager<int>("/JsonData/cherryData.json");
+        List<int> cherryIdCollected = CherryIdManager.LoadListFromJsonFile();
         Cherry[] cherriesObject = FindObjectsOfType<Cherry>();
-        foreach (int cherry in cherries)
+        if(cherryIdCollected != null && cherryIdCollected.Count > 0)
         {
-            foreach(Cherry cherryObject in cherriesObject)
+            foreach (int cherryId in cherryIdCollected)
             {
-                if(cherryObject.Id == cherry)
-                    Destroy(cherryObject);
+                foreach (Cherry cherry in cherriesObject)
+                {
+                    if (cherry.Id == cherryId)
+                        Destroy(cherry.gameObject);
+                        //cherry.gameObject.SetActive(false);
+                }
             }
         }
+
     }
     public void SetCheckPoint(Vector3 position)
     {

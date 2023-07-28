@@ -4,33 +4,50 @@ using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class JsonManager : Singleton<JsonManager>
+public class JsonListManager<T>
 {
-    public List<int> Cherrys = new List<int>();
-    string pathCherryId = Application.dataPath + "/JsonData/cherryData.json";
-    private void Awake()
+    [System.Serializable]
+    public class ListJson
     {
-        
+        public List<T> list = new List<T>();
     }
-    public void SaveListIdCherryToJson()
+
+    ListJson listObject;
+    string filePath;
+
+    public JsonListManager(string filePath)
     {
-        string jsonData = JsonUtility.ToJson(Cherrys);
-        File.WriteAllText(pathCherryId, jsonData);
+        listObject = new ListJson();
+        this.filePath = Application.dataPath + filePath;
     }
-    public List<int> LoadListIdCherryToJson()
+
+    void SaveListToJson()
     {
-        
-        if (File.Exists(pathCherryId))
+        string json = JsonUtility.ToJson(listObject);
+        File.WriteAllText(filePath, json);
+    }
+    public List<T> LoadListFromJsonFile()
+    {
+        if(File.Exists(filePath))
         {
-            string jsonData = File.ReadAllText(pathCherryId);
-            Cherrys = JsonUtility.FromJson<List<int>>(jsonData);
+            string json = File.ReadAllText(filePath);
+            listObject = JsonUtility.FromJson<ListJson>(json);
+            return listObject.list;
         }
-        return Cherrys;
+        else
+        {
+            Debug.Log("Không có file này!");
+            return null;
+        }   
     }
-    public void AddIdCherryToJson(int cherry)
+    public void AddElementToListInJson(T element)
     {
-        Cherrys.Add(cherry);
-        SaveListIdCherryToJson();
+        listObject.list.Add(element);
+        SaveListToJson();
     }
-    
+    public void RemoveElementToListInJson(T element)
+    {
+        listObject.list.Remove(element);
+        SaveListToJson();
+    }
 }
