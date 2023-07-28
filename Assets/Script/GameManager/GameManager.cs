@@ -24,7 +24,7 @@ public class GameManager : Singleton<GameManager>
         GameUiManager.Instance.UpdateCherry(Prefs.NumberOfCherry);
 
         // duyệt tất cả các quả cherry đã thu thập và hủy nó đi trên scenes
-        CherryIdManager = new JsonListManager<int>("/JsonData/cherryData.json");
+        CherryIdManager = new JsonListManager<int>(GameConst.PATH_JSON_CHERRYCOLECTION);
         List<int> cherryIdCollected = CherryIdManager.LoadListFromJsonFile();
         Cherry[] cherriesObject = FindObjectsOfType<Cherry>();
         if(cherryIdCollected != null && cherryIdCollected.Count > 0)

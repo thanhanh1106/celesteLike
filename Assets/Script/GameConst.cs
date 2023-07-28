@@ -16,4 +16,6 @@ public static class GameConst
     public const string PREFS_CHECK_POINT_X = "CheckPointX";
     public const string PREFS_CHECK_POINT_Y = "CheckPointY";
     public const string PREFS_IS_GAME_ENTERED = "isGameEntered";
+
+    public const string PATH_JSON_CHERRYCOLECTION = "/JsonData/cherryData.json";
 }
