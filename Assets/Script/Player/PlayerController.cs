@@ -519,6 +519,10 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region other method
+    public void BonusDash()
+    {
+        DashLeft = DashLeft = Mathf.Min(Data.DashAmount, DashLeft + 1);
+    }
     void CheckFace(float xDirection)
     {
         float eulerAnglesY = xDirection > 0 ? 0 : 180;
