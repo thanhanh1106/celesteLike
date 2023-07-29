@@ -14,7 +14,7 @@ public class BonusDash : MonoBehaviour
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             player.BonusDash();
             Invoke("Reappears", 2);
-            CameraShake.Instance.ShakeCamera(1.5f, 5f, 0.1f);
+            CameraShake.Instance.ShakeCamera(1f, 2f, 0.1f);
             gameObject.SetActive(false);
             
         }

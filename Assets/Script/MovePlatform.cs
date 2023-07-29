@@ -19,30 +19,37 @@ public class MovePlatform : MonoBehaviour
     bool isMoving;
 
     public PlayerController Player;
+    Animator animator;
+    AnimationController animationController;
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
+        animationController = new AnimationController(animator);
         transform.position = PointA.position;
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag(GameConst.PLAYER_TAG))
         {
+            collision.transform.SetParent(this.transform);
             TriggerMovePlatform();
         }
     }
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag(GameConst.PLAYER_TAG))
-        {
-            if (collision.transform.parent == null)
-            {
-                collision.transform.SetParent(this.transform);
-            }
-            if (collision.gameObject.transform.parent == this.transform && Player.IsJumping || Player.IsDie)
-                collision.transform.SetParent(null);
-        }
-    }
+    //private void OnCollisionStay2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag(GameConst.PLAYER_TAG))
+    //    {
+    //        collision.gameObject.GetComponent<PlayerController>();
+    //        if (collision.transform.parent == null)
+    //        {
+                
+    //        }
+    //        if (collision.gameObject.transform.parent == this.transform
+    //            && collision.gameObject.GetComponent<PlayerController>().IsJumping || Player.IsDie)
+    //            collision.transform.SetParent(null);
+    //    }
+    //}
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag(GameConst.PLAYER_TAG))
@@ -57,6 +64,7 @@ public class MovePlatform : MonoBehaviour
     }
     IEnumerator Move()
     {
+        animationController.ChangeAnimationState("Move");
         isMoving = true;
         yield return new WaitForSeconds(0.5f);
         timeHasPassed = 0;
@@ -70,7 +78,7 @@ public class MovePlatform : MonoBehaviour
                 Vector3.Lerp(startPosition, TargetPosition, curveAB.Evaluate(percentageCompelete));
             yield return null;
         }
-
+        CameraShake.Instance.ShakeCamera(3f, 7f, 0.5f);
         yield return new WaitForSeconds(1f);
         timeHasPassed = 0;
         startPosition = PointB.position;
@@ -84,5 +92,6 @@ public class MovePlatform : MonoBehaviour
             yield return null;
         }
         isMoving = false;
+        animationController.ChangeAnimationState("Idle");
     }
 }
