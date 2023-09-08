@@ -561,6 +561,7 @@ public class PlayerController : MonoBehaviour
     void Die()
     {
         IsDie = true;
+        transform.parent = null;
         AudioController.Instance.PlaySound(AudioController.Instance.Die);
         //1 cách để người chơi biến mất
         transform.localScale = Vector3.zero;

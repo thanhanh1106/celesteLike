@@ -37,9 +37,12 @@ public class CameraShake : MonoBehaviour
     }
     public void ShakeCamera(float ShakeIntensity, float ShakeFrequency, float time)
     {
-        multiChannelPerlin.m_AmplitudeGain = ShakeIntensity;
-        multiChannelPerlin.m_FrequencyGain = ShakeFrequency;
-        timer = time;
+        if(multiChannelPerlin != null)
+        {
+            multiChannelPerlin.m_AmplitudeGain = ShakeIntensity;
+            multiChannelPerlin.m_FrequencyGain = ShakeFrequency;
+            timer = time;
+        }
     }
     void StopShake()
     {
